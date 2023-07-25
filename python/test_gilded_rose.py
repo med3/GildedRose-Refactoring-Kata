@@ -90,5 +90,17 @@ class GildedRoseTest(unittest.TestCase):
         gilded_rose.update_quality()
         self.assertEquals(0, items[0].quality)
 
+    def test_conjured_item_degrading(self):
+        items = [Item("Conjured Item", 15, 40)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEquals(38, items[0].quality)
+
+    def test_conjured_item_at_0(self):
+        items = [Item("Conjured Item", 0, 40)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEquals(36, items[0].quality)
+
 if __name__ == '__main__':
     unittest.main()

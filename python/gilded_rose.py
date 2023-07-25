@@ -11,45 +11,52 @@ class GildedRose(object):
                 item.quality = 80
                 continue
 
-            if item.name == "Aged Brie":
-                self.increase_quality(item)
-                item.sell_in = item.sell_in - 1
-                if item.sell_in < 0:
-                    self.increase_quality(item)
+            elif item.name == "Aged Brie":
+                self.aged_brie(item)
                 continue
 
-            if item.name == "Backstage passes to a TAFKAL80ETC concert":
-
-                if item.sell_in < 6:
-                    item.quality = item.quality + 3
-                elif item.sell_in < 11:
-                    item.quality = item.quality + 2
-                else:
-                    item.quality = item.quality + 1
-                
-                item.sell_in = item.sell_in - 1
-
-                if item.sell_in < 0:
-                    item.quality = 0
-
-                item.quality = min(item.quality, 50)
-
+            elif item.name == "Backstage passes to a TAFKAL80ETC concert":
+                self.backstage_pass(item)
                 continue
 
-
-            item.quality = item.quality - 1
-            item.quality = max(item.quality, 0)
-
-            item.sell_in = item.sell_in - 1
-
-            if item.sell_in < 0:
-                item.quality = item.quality - 1
+            elif "Conjured" in item.name:
+                item.quality -= 2
+                item.sell_in -= 1
+                if item.sell_in < 0:
+                    item.quality -= 2
+            
+            else:
+                item.quality -= 1
                 item.quality = max(item.quality, 0)
+                item.sell_in -= 1
+                if item.sell_in < 0:
+                    item.quality -= 1
+                    item.quality = max(item.quality, 0)
 
-
-    def increase_quality(self, item):
+    def aged_brie(self, item):
         if item.quality < 50:
-            item.quality = item.quality + 1
+            item.quality += 1
+        item.sell_in -= 1
+        if item.sell_in < 0:
+            if item.quality < 50:
+                item.quality += 1
+
+    def backstage_pass(self, item):
+        if item.sell_in < 6:
+            item.quality += 3
+        elif item.sell_in < 11:
+            item.quality += 2
+        else:
+            item.quality += 1
+                
+        item.sell_in -= 1
+
+        if item.sell_in < 0:
+            item.quality = 0
+
+        item.quality = min(item.quality, 50)
+
+
 
 
 
