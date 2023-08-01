@@ -55,10 +55,6 @@ class GildedRose(object):
             item.quality += 1
         item.quality = min(item.quality, 50)
 
-
-
-
-
 class Item:
     def __init__(self, name, sell_in, quality):
         self.name = name
